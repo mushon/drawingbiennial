@@ -27,4 +27,4 @@
 	url = git@github.com:opscode-cookbooks/openssl.git
 [submodule "cookbooks/wordpress"]
 	path = cookbooks/wordpress
-	url = git@github.com:claudiosmweb/vagrant-wordpress.git
+	url = git@github.com:claudiosmweb/wordpress-cookbook.git
