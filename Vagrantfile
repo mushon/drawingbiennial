@@ -7,6 +7,9 @@ Vagrant::Config.run do |config|
     # Box URL
     wp_config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
+    # Access via IP.
+    # config.vm.network :hostonly, "192.168.33.10"
+
     # Shared folder
     wp_config.vm.share_folder "v-data", "www", "data", :owner => "www-data", :group => "www-data"
 
@@ -21,11 +24,9 @@ Vagrant::Config.run do |config|
       chef.add_recipe "git"
       chef.add_recipe "subversion"
       chef.add_recipe "vim"
-      chef.add_recipe "apache2"
-      chef.add_recipe "mysql::server"
-      chef.add_recipe "php"
-      chef.add_recipe "openssl"
+      chef.add_recipe "phpmyadmin"
       chef.add_recipe "wordpress"
+      chef.add_recipe "php::module_curl"
 
       chef.json = {
         "mysql" => {
@@ -34,7 +35,15 @@ Vagrant::Config.run do |config|
           "server_debian_password" => "vagrant"
         },
         "wordpress" => {
-          "dir" => "/home/vagrant/www"
+          "dir" => "/home/vagrant/www",
+          "url" => "http://br.wordpress.org/wordpress-3.5-pt_BR.tar.gz",
+          "lang" => "pt_BR",
+          "debug" => "false",
+          "db" => {
+            "database" => "wordpressdb",
+            "user" => "wordpressuser",
+            "prefix" => "wp_"
+          }
         }
       }
 
