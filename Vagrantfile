@@ -11,7 +11,7 @@ Vagrant::Config.run do |config|
     # config.vm.network :hostonly, "192.168.33.10"
 
     # Shared folder
-    wp_config.vm.share_folder "v-data", "www", "data", :owner => "www-data", :group => "www-data"
+    wp_config.vm.share_folder "v-data", "/home/vagrant/www", "data", :owner => "www-data", :group => "www-data"
 
     # Ports
     wp_config.vm.forward_port 80, 8080
