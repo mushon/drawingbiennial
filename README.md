@@ -8,8 +8,6 @@ Installed by default:
 * MySQL
 * PHP
 * phpMyAdmin
-* Git
-* Subversion
 * Vim
 * WordPress
 
@@ -24,9 +22,11 @@ Installed by default:
 
 Clone this repo and execute:
 
-    $ git submodule init
-    $ git submodule update
-    $ vagrant up
+```bash
+$ git submodule init
+$ git submodule update
+$ vagrant up
+```
 
 ## Custom Instalation: ##
 
@@ -34,16 +34,18 @@ See the configurations that are possible via the Vagrantfile.
 
 ### WordPress config: ###
 
-    "wordpress" => {
-      "dir" => "/home/vagrant/www",
-      "url" => "http://br.wordpress.org/wordpress-3.5-pt_BR.tar.gz",
-      "lang" => "pt_BR",
-      "debug" => "false",
-      "db" => {
-        "database" => "wordpressdb",
-        "user" => "wordpressuser",
-        "prefix" => "wp_"
-      }
+```ruby
+"wordpress" => {
+  "dir" => "/home/vagrant/www",
+  "url" => "http://br.wordpress.org/wordpress-3.5-pt_BR.tar.gz",
+  "lang" => "pt_BR",
+  "debug" => "false",
+  "db" => {
+    "database" => "wordpressdb",
+    "user" => "wordpressuser",
+    "prefix" => "wp_"
+}
+```
 
 * **dir** - Not change, it is essential to work with the shared folder!
 * **url** - WordPress tag.gz url
@@ -53,11 +55,13 @@ See the configurations that are possible via the Vagrantfile.
 
 ### MySQL config: ###
 
-    "mysql" => {
-      "server_root_password" => "vagrant",
-      "server_repl_password" => "vagrant",
-      "server_debian_password" => "vagrant"
-    },
+```ruby
+"mysql" => {
+  "server_root_password" => "vagrant",
+  "server_repl_password" => "vagrant",
+  "server_debian_password" => "vagrant"
+},
+```
 
 All fields are for setting passwords to the MySQL users.
 
@@ -85,12 +89,10 @@ Cookbooks by [Opscode Public Cookbooks](https://github.com/opscode-cookbooks/)
         apache2/
         apt/
         build-essential/
-        git/
         mysql/
         openssl/
         php/
         phpmyadmin/
-        subversion/
         vim/
         wordpress/
 
