@@ -7,7 +7,6 @@ Installed by default:
 * Apache2
 * MySQL
 * PHP
-* phpMyAdmin
 * Vim
 * WordPress
 
@@ -92,7 +91,6 @@ Cookbooks by [Opscode Public Cookbooks](https://github.com/opscode-cookbooks/)
         mysql/
         openssl/
         php/
-        phpmyadmin/
         vim/
         wordpress/
 
