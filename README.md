@@ -47,7 +47,7 @@ See the configurations that are possible via the Vagrantfile.
 }
 ```
 
-* **dir** - Not change, it is essential to work with the shared folder!
+* **dir** - Do not change, it is essential to work with the shared folder!
 * **url** - WordPress tag.gz url
 * **lang** - WordPress installation language.
 * **debug** - WordPress debugging mode.
