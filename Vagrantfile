@@ -2,10 +2,10 @@ Vagrant::Config.run do |config|
   config.vm.define :wpvm do |wp_config|
 
     # Box
-    wp_config.vm.box = "precise32"
+    wp_config.vm.box = "raring-server-cloudimg-vagrant-amd64-disk1"
 
     # Box URL
-    wp_config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+    wp_config.vm.box_url = "http://cloud-images.ubuntu.com/raring/current/raring-server-cloudimg-vagrant-amd64-disk1.box"
 
     # Access via IP.
     # config.vm.network :hostonly, "192.168.33.10"

@@ -79,7 +79,7 @@ You can also configure your hosts file:
 
 ### Box ###
 
-Ubuntu Precise 32 Box by [Vagrantbox.es](http://www.vagrantbox.es/)
+Official Ubuntu 13.04 daily Cloud Image amd64 (Development release, No Guest Additions) by [Ubuntu Cloud Images](http://cloud-images.ubuntu.com/)
 
 ### Cookbooks ###
 
