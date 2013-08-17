@@ -93,8 +93,6 @@ Cookbooks by [Opscode Public Cookbooks](https://github.com/opscode-cookbooks/)
         vim/
         wordpress/
 
-WordPress custom cookbook: <https://github.com/claudiosmweb/wordpress-cookbook/>
-
 ## License: ##
 
 Licensed under the [MIT license](http://opensource.org/licenses/mit-license.php).
