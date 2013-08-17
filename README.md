@@ -36,13 +36,12 @@ See the configurations that are possible via the Vagrantfile.
 ```ruby
 "wordpress" => {
   "dir" => "/home/vagrant/www",
-  "url" => "http://wordpress.org/latest.tar.gz",
-  "lang" => "en_ES",
-  "debug" => "false",
+  "version" => "latest",
+  "repourl" => "http://wordpress.org/",
   "db" => {
     "database" => "wordpressdb",
-    "user" => "wordpressuser",
-    "prefix" => "wp_"
+    "user" => "wordpressuser"
+  }
 }
 ```
 

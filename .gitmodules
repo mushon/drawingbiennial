@@ -19,3 +19,6 @@
 [submodule "cookbooks/openssl"]
 	path = cookbooks/openssl
 	url = git@github.com:opscode-cookbooks/openssl.git
+[submodule "cookbooks/wordpress"]
+	path = cookbooks/wordpress
+	url = git@github.com:opscode-cookbooks/wordpress.git
