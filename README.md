@@ -13,3 +13,5 @@ $ vagrant up
 ```
 
 This might take some time since it needs to fetch the VM binaries and provision the machine.
+
+You will now have a working Wordpress installation running on a virtual machine. Access it through [http://localhost:8080/wordpress](http://localhost:8080). The admin interface is on [http://localhost:8080/wordpress/wp-admin](http://localhost:8080/wordpress/wp-admin) and has initial credentials user: `admin` and password: `vagrant`.
