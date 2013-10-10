@@ -5,7 +5,29 @@
         <meta charset="utf-8"/>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script type="text/javascript">
+            var backgrounds = [
+                'mockups/traces_a1_eng.png',
+                'mockups/traces_a2_eng.png',
+                'mockups/traces_a3_eng.png',
+                'mockups/traces_a45_eng.png',
+                'mockups/traces_a5_eng.png',
+                'mockups/traces_gallery_eng.png',
+                'mockups/traces_gallery_heb.png',
+                'mockups/traces_hp_eng.png',
+                'mockups/traces_hp_heb.png'
+            ];
+            var bgi = 0;
+
             $(document).ready(function() {
+
+                // just handle background changes
+                $("body").keydown(function(e) {
+                    var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+                    if(key == 39) {
+                        $(".container").css("background", 'url("' + backgrounds[bgi++] + '") no-repeat #f6f8f8');
+                    }
+                });
+
                 // state flags
                 var record = false;
                 var play = false;
@@ -128,7 +150,7 @@
             }
             .gui {
                 color: #ccc;
-                background: #36393a url(img/menu.png) left bottom repeat-x;
+                background: #36393a url(harmony/img/menu.png) left bottom repeat-x;
                 padding: 5px 10px;
                 text-align: center;
                 text-transform: uppercase;
