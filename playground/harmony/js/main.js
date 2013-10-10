@@ -536,7 +536,7 @@ function onCanvasTouchStart( event )
 	if(event.touches.length == 1)
 	{
 		// draw
-		event.preventDefault();
+		//event.preventDefault();
 		
 		brush.strokeStart( event.touches[0].pageX - canvas.offsetLeft, event.touches[0].pageY - canvas.offsetTop );
 		

@@ -78,11 +78,15 @@
         <style type="text/css">
             .dot {
                 position: fixed;
-                top: 80px;
-                left: 200px;
-                width: 2px;
-                height: 2px;
+                
+                width: 2px; height: 2px;
                 background: #ff0000;
+                /*
+                width: 4px; height: 4px;
+                border-radius: 2px;
+                background: #fff;
+                box-shadow: 0px 0px 5px rgba(150, 150, 150, 0.50);
+                */
             }
             #canvas {
                 height: 1000px;
@@ -92,8 +96,8 @@
                 font-size: 12px;
             }
             body {
-                margin: 40px 20px;
                 overflow: hidden;
+                margin: 0;
             }
             select {
                 text-transform: uppercase;
@@ -156,18 +160,36 @@
                 -webkit-box-shadow: 0px 1px 0px rgba(255,255,255,0.2);
                 margin-right: 8px;
             }
+            .container{
+                background: url("mockups/traces_hp_eng.png") no-repeat #f6f8f8;
+                min-height: 1346px;
+                margin-top: 30px;
+            }
+            #mice{
+                position: absolute;
+                height: 40px; width: 200px;
+                top: 5px; right: 5px;
+                text-align: right;
+                color: #fff;
+                z-index: 99999;
+            }
+            #mice h2,
+            #mice p{
+                display: none;
+            }
         </style>
     </head>
     <body>
-        <h2>Mouse Drawing Playground</h2>
-        <div>This version records mouse position at a fixed interval, and replays them at the same "speed".</div>
-        <br/>
-        <div id="dots"></div>
-        <button id="record">Record</button>
-        <button id="play">Play</button>
-        <br/>
-        <h3 id="latest">Latest</h3>
-        <div id="canvas"></div>
+        <div class="container">
+            <div id="mice">
+                <h2>Mouse Drawing Playground</h2>
+                <p>This version records mouse position at a fixed interval, and replays them at the same "speed".</p>
+                <div id="dots"></div>
+                <span id="latest">Latest</span>
+                <button id="record">Record</button>
+                <button id="play">Play</button>
+            </div>
+        </div>
         <script type="text/javascript" src="harmony/js/brushes/circles.js"></script>
         <script type="text/javascript" src="harmony/js/brushes/chrome.js"></script>
         <script type="text/javascript" src="harmony/js/brushes/fur.js"></script>
