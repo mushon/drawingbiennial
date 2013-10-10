@@ -24,7 +24,7 @@
                 $("body").keydown(function(e) {
                     var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
                     if(key == 39) {
-                        $(".container").css("background", 'url("' + backgrounds[bgi++] + '") no-repeat #f6f8f8');
+                        $(".container").css("background", 'url("' + backgrounds[bgi++ % backgrounds.length] + '") no-repeat #f6f8f8');
                     }
                 });
 
