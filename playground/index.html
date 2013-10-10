@@ -1,0 +1,124 @@
+<!doctype html5>
+<html lang="en">
+    <head>
+        <title>Mouse Drawing Playground</title>
+        <meta charset="utf-8"/>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/circles.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/chrome.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/fur.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/grid.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/longfur.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/ribbon.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/shaded.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/simple.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/sketchy.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/squares.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/web.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/mirrorshaded.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/mirrorsimple.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/mirrorsketchy.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/mirrorweb.js"></script>
+        <script type="text/javascript" src="harmony/js/colorutils.js"></script>
+        <script type="text/javascript" src="harmony/js/colorselector.js"></script>
+        <script type="text/javascript" src="harmony/js/palette.js"></script>
+        <script type="text/javascript" src="harmony/js/menu.js"></script>
+        <script type="text/javascript" src="harmony/js/about.js"></script>  
+        <script type="text/javascript" src="harmony/js/main.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                // state flags
+                var record = false;
+                var play = false;
+
+                // captured data
+                var all_captures = [];
+                var capture = [];
+                var latest = [];
+
+                // interval IDs
+                var recordId = -1;
+                var playId = -1;
+
+                // capture params
+                var FPS = 20;
+                var CAPTURE_INTERVAL = 1000 / FPS;
+
+                $("#record").click(function () {
+                    record = !record;
+                    if (record) {
+                        recordId = setInterval(function () {
+                            capture.push(latest);
+                        }, CAPTURE_INTERVAL);
+                        $("#record").html("Stop");
+                    } else {
+                        clearInterval(recordId);
+                        // push an array clone
+                        all_captures.push(capture.slice(0));
+                        // since we use the same reference again
+                        capture = [];
+                        latest = [];
+                        $("#record").html("Record");
+                    }
+                });
+
+                $("#play").click(function () {
+                    play = !play;
+                    if (play) {
+                        $("#play").html("Stop");
+                        var dots = $('#dots');
+                        var frame = 0;
+
+                        // create as many new dots as neccesary
+                        dots.empty();
+                        for (var i = 0; i < all_captures.length; i++) {
+                            dots.append('<span class="dot" id="dot-' + i + '"></span>');
+                        }
+                        playId = setInterval(function () {
+                            for (var j = 0; j < all_captures.length; j++) {
+                                var dot = $("#dot-" + j);
+                                var cap = all_captures[j];
+                                var len = cap.length;
+                                dot.css("left", cap[frame % len][0]);
+                                dot.css("top", cap[frame % len][1]);
+                            }
+                            frame++;
+                        }, CAPTURE_INTERVAL);
+                    } else {
+                        clearInterval(playId);
+                        $("#play").html("Play");
+                    }
+                });
+
+                $("body").mousemove(function (e) {
+                    $("#latest").html("(" + e.pageX + "," + e.pageY + ")");
+                    latest = [e.pageX, e.pageY];
+                });
+            });
+        </script>
+        <style type="text/css">
+            .dot {
+                position: fixed;
+                top: 80px;
+                left: 200px;
+                width: 2px;
+                height: 2px;
+                background: #ff0000;
+            }
+            #canvas {
+                height: 1000px;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Mouse Drawing Playground</h2>
+        <div>This version records mouse position at a fixed interval, and replays them at the same "speed".</div>
+        <br/>
+        <div id="dots"></div>
+        <button id="record">Record</button>
+        <button id="play">Play</button>
+        <br/>
+        <h3 id="latest">Latest</h3>
+        <div id="canvas"></div>
+    </body>
+</html>
