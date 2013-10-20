@@ -1,0 +1,165 @@
+<!doctype html5>
+<html lang="en">
+    <head>
+        <title>Mouse Drawing Playground</title>
+        <meta charset="utf-8"/>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script type="text/javascript">
+            var backgrounds = [
+                'mockups/traces_hp_eng.png',
+                'mockups/traces_hp_heb.png',
+                'mockups/traces_gallery_eng.png',
+                'mockups/traces_gallery_heb.png',
+                'mockups/traces_a1_eng.png',
+                'mockups/traces_a2_eng.png',
+                'mockups/traces_a3_eng.png',
+                'mockups/traces_a4_eng.png',
+                'mockups/traces_a5_eng.png'
+            ];
+            var bgi = 0;
+
+            $(document).ready(function() {
+
+                // just handle background changes
+                $("body").keydown(function(e) {
+                    var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+                    if (key == 39) {
+                        $(".container").css("background", 'url("' + backgrounds[bgi++ % backgrounds.length] + '") no-repeat #f6f8f8');
+                    }
+                    if (key == 16) {
+                        for (var i=0; i<db_brushes.length; i++) {
+                            db_brushes[i].strokeStart( last_xy[i][0] - canvas.offsetLeft, last_xy[i][1] - canvas.offsetTop );
+                        }
+                        draw = true;
+                    }
+                });
+
+                $("body").keyup(function(e) {
+                    var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+                    if (key == 16) {
+                        for (var i=0; i<db_brushes.length; i++) {
+                            db_brushes[i].strokeEnd();
+                        }
+                        draw = false;
+                    }
+                });
+
+                // state flags
+                var record = false;
+                var play = false;
+                var draw = false;
+                var last_xy = [];
+                var db_brushes = [];
+
+                // captured data
+                var all_captures = [];
+                var capture = [];
+                var latest = [];
+
+                // interval IDs
+                var recordId = -1;
+                var playId = -1;
+
+                // capture params
+                var FPS = 20;
+                var CAPTURE_INTERVAL = 1000 / FPS;
+
+                $("#record").click(function () {
+                    record = !record;
+                    if (record) {
+                        recordId = setInterval(function () {
+                            capture.push(latest);
+                        }, CAPTURE_INTERVAL);
+                        $("#record").html("Stop");
+                    } else {
+                        clearInterval(recordId);
+                        // push an array clone
+                        all_captures.push(capture.slice(0));
+                        last_xy.push([]);
+                        db_brushes.push(eval("new " + BRUSHES[0] + "(context)"));
+                        // since we use the same reference again
+                        capture = [];
+                        latest = [];
+                        $("#record").html("Record");
+                    }
+                });
+
+                $("#play").click(function () {
+                    play = !play;
+                    if (play) {
+                        $("#play").html("Stop");
+                        var dots = $('#dots');
+                        var frame = 0;
+
+                        // create as many new dots as neccesary
+                        dots.empty();
+                        for (var i = 0; i < all_captures.length; i++) {
+                            dots.append('<span class="dot" id="dot-' + i + '"></span>');
+                        }
+                        playId = setInterval(function () {
+                            for (var j = 0; j < all_captures.length; j++) {
+                                var dot = $("#dot-" + j);
+                                var cap = all_captures[j];
+                                var len = cap.length;
+                                var x = cap[frame % len][0];
+                                var y = cap[frame % len][1];
+                                dot.css("left", x);
+                                dot.css("top", y);
+                                last_xy[j] = [x, y];
+                                if (draw) {
+                                    db_brushes[j].stroke( x - canvas.offsetLeft, y - canvas.offsetTop );
+                                }
+                            }
+                            frame++;
+                        }, CAPTURE_INTERVAL);
+                    } else {
+                        clearInterval(playId);
+                        $("#play").html("Play");
+                    }
+                });
+
+                $("body").mousemove(function (e) {
+                    $("#latest").html("(" + e.pageX + "," + e.pageY + ")");
+                    latest = [e.pageX, e.pageY];
+                });
+            });
+        </script>
+        <link type="text/css" rel="stylesheet" href="style.css"></link>
+    </head>
+    <body>
+        <div class="container">
+            <div id="mice">
+                <h2>Mouse Drawing Playground</h2>
+                <p>This version records mouse position at a fixed interval, and replays them at the same "speed".</p>
+                <div id="dots"></div>
+                <span id="latest">Latest</span>
+                <button id="record">Record</button>
+                <button id="play">Play</button>
+            </div>
+        </div>
+        <div id="logo"></div>
+        <div id="nav"></div>
+        <div id="shift"></div>
+        <script type="text/javascript" src="harmony/js/brushes/circles.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/chrome.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/fur.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/grid.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/longfur.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/ribbon.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/shaded.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/simple.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/sketchy.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/squares.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/web.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/mirrorshaded.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/mirrorsimple.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/mirrorsketchy.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/mirrorweb.js"></script>
+        <script type="text/javascript" src="harmony/js/colorutils.js"></script>
+        <script type="text/javascript" src="harmony/js/colorselector.js"></script>
+        <script type="text/javascript" src="harmony/js/palette.js"></script>
+        <script type="text/javascript" src="harmony/js/menu.js"></script>
+        <script type="text/javascript" src="harmony/js/about.js"></script>
+        <script type="text/javascript" src="harmony/js/main.js"></script>
+    </body>
+</html>
