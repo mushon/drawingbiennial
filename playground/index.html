@@ -23,14 +23,28 @@
                 // just handle background changes
                 $("body").keydown(function(e) {
                     var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
-                    if(key == 39) {
+                    if (key == 39) {
                         $(".container").css("background", 'url("' + backgrounds[bgi++ % backgrounds.length] + '") no-repeat #f6f8f8');
+                    }
+                    if (key == 16) {
+                        brush.strokeStart( last_xy[0] - canvas.offsetLeft, last_xy[1] - canvas.offsetTop );
+                        draw = true;
+                    }
+                });
+
+                $("body").keyup(function(e) {
+                    var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+                    if (key == 16) {
+                        brush.strokeEnd();
+                        draw = false;
                     }
                 });
 
                 // state flags
                 var record = false;
                 var play = false;
+                var draw = false;
+                var last_xy = [];
 
                 // captured data
                 var all_captures = [];
@@ -80,8 +94,14 @@
                                 var dot = $("#dot-" + j);
                                 var cap = all_captures[j];
                                 var len = cap.length;
-                                dot.css("left", cap[frame % len][0]);
-                                dot.css("top", cap[frame % len][1]);
+                                var x = cap[frame % len][0];
+                                var y = cap[frame % len][1];
+                                dot.css("left", x);
+                                dot.css("top", y);
+                                last_xy = [x, y];
+                                if (draw) {
+                                    brush.stroke( x - canvas.offsetLeft, y - canvas.offsetTop );
+                                }
                             }
                             frame++;
                         }, CAPTURE_INTERVAL);
