@@ -3,6 +3,7 @@
     <head>
         <title>Mouse Drawing Playground</title>
         <meta charset="utf-8"/>
+        <link href="style.css" media="all" rel="stylesheet" type="text/css">
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script type="text/javascript">
             var backgrounds = [
@@ -23,14 +24,33 @@
                 // just handle background changes
                 $("body").keydown(function(e) {
                     var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
-                    if(key == 39) {
+                    if (key == 39) {
                         $(".container").css("background", 'url("' + backgrounds[bgi++ % backgrounds.length] + '") no-repeat #f6f8f8');
+                    }
+                    if (key == 16) {
+                        for (var i=0; i<db_brushes.length; i++) {
+                            db_brushes[i].strokeStart( last_xy[i][0] - canvas.offsetLeft, last_xy[i][1] - canvas.offsetTop );
+                        }
+                        draw = true;
+                    }
+                });
+
+                $("body").keyup(function(e) {
+                    var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+                    if (key == 16) {
+                        for (var i=0; i<db_brushes.length; i++) {
+                            db_brushes[i].strokeEnd();
+                        }
+                        draw = false;
                     }
                 });
 
                 // state flags
                 var record = false;
                 var play = false;
+                var draw = false;
+                var last_xy = [];
+                var db_brushes = [];
 
                 // captured data
                 var all_captures = [];
@@ -56,6 +76,8 @@
                         clearInterval(recordId);
                         // push an array clone
                         all_captures.push(capture.slice(0));
+                        last_xy.push([]);
+                        db_brushes.push(eval("new " + BRUSHES[0] + "(context)"));
                         // since we use the same reference again
                         capture = [];
                         latest = [];
@@ -80,8 +102,14 @@
                                 var dot = $("#dot-" + j);
                                 var cap = all_captures[j];
                                 var len = cap.length;
-                                dot.css("left", cap[frame % len][0]);
-                                dot.css("top", cap[frame % len][1]);
+                                var x = cap[frame % len][0];
+                                var y = cap[frame % len][1];
+                                dot.css("left", x);
+                                dot.css("top", y);
+                                last_xy[j] = [x, y];
+                                if (draw) {
+                                    db_brushes[j].stroke( x - canvas.offsetLeft, y - canvas.offsetTop );
+                                }
                             }
                             frame++;
                         }, CAPTURE_INTERVAL);
@@ -97,129 +125,7 @@
                 });
             });
         </script>
-        <style type="text/css">
-            .dot {
-                position: fixed;
-                
-                width: 2px; height: 2px;
-                background: #ff0000;
-                /*
-                width: 4px; height: 4px;
-                border-radius: 2px;
-                background: #fff;
-                box-shadow: 0px 0px 5px rgba(150, 150, 150, 0.50);
-                */
-            }
-            #canvas {
-                height: 1000px;
-            }
-            * {
-                font-family: "Lucida Grande";
-                font-size: 12px;
-            }
-            body {
-                
-                margin: 0;
-            }
-            select {
-                text-transform: uppercase;
-                font-size: 11px;
-                text-align: center;
-            }
-            hr {
-                border: 0;
-                height: 1px;
-                background-color: #ccc;
-                margin: 20px 0px;
-            }
-            label {
-                font-size: 10px;
-                font-weight: bold;
-                text-shadow: 0px 1px 3px black, 0px 0px 4px black, 0px 3px 10px black;
-                color: white;
-            }
-            .menu {
-                position:absolute;
-                left:0px;
-            }
-            .about {
-                width: 340px;
-                border-radius:4px;
-                border: 1px solid #fff;
-                -webkit-background-clip:padding-box;
-            }
-            .gui {
-                color: #ccc;
-                background: #36393a url(harmony/img/menu.png) left bottom repeat-x;
-                padding: 5px 10px;
-                text-align: center;
-                text-transform: uppercase;
-                line-height: 18px;
-                cursor: default;
-                text-shadow: 0px 1px 1px black;
-                -webkit-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.8);
-                position: fixed !important;
-            }
-            .button {
-                padding: 2px;
-                cursor: pointer;
-            }
-            .button:hover, .button:active {
-                text-shadow: 0px 1px 3px black;
-            }
-            a, a:hover, a:visited {
-                color: #abf;
-                text-decoration: none;
-            }
-            .key {
-                padding: 0px 8px;
-                margin-left: 1px;
-                background-color: #222;
-                border-radius: 3px;
-            }
-            .well {
-                border-radius: 4px;
-                border: 1px solid black;
-                -webkit-box-shadow: 0px 1px 0px rgba(255,255,255,0.2);
-                margin-right: 8px;
-            }
-            .container{
-                background: url("mockups/traces_hp_eng.png") center top no-repeat #f6f8f8;
-                min-height: 1346px;
-                margin-top: 30px;
-            }
-            #mice{
-                position: fixed;
-                height: 40px; width: 200px;
-                top: 5px; right: 5px;
-                text-align: right;
-                color: #fff;
-                z-index: 99999;
-            }
-            #mice h2,
-            #mice p{
-                display: none;
-            }
-            #logo{
-                background: url("mockups/logo.png") no-repeat;
-                height: 30px; width: 88px;
-                position: fixed;
-                top: 43px; right: 10px;
-            }
-            #nav{
-                background: url("mockups/nav.png") no-repeat;
-                height: 17px; width: 594px;
-                position: fixed;
-                top: 58px; left: 17px;
-            }
-            #shift{
-                background: url("mockups/shift.png") no-repeat;
-                height: 18px; width: 61px;
-                position: fixed;
-                bottom: 20px; left: 20px;
-            }
-
-        </style>
+        <link type="text/css" rel="stylesheet" href="style.css"></link>
     </head>
     <body>
         <div class="container">
@@ -233,6 +139,7 @@
             </div>
         </div>
         <div id="logo"></div>
+        <div id="artisthouse"></div>
         <div id="nav"></div>
         <div id="shift"></div>
         <script type="text/javascript" src="harmony/js/brushes/circles.js"></script>
