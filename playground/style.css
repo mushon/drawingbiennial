@@ -1,53 +1,58 @@
-
 .dot {
     position: fixed;
-    
-    width: 2px; height: 2px;
-    background: #ff0000;
-    /*
-    width: 4px; height: 4px;
-    border-radius: 2px;
-    background: #fff;
-    box-shadow: 0px 0px 5px rgba(150, 150, 150, 0.50);
-    */
 }
+
 #canvas {
     height: 1000px;
 }
+
 * {
     font-family: "Lucida Grande";
     font-size: 12px;
 }
+
 body {
     margin: 0;
 }
+=======
+
+body {
+    
+    margin: 0;
+}
+
 select {
     text-transform: uppercase;
     font-size: 11px;
     text-align: center;
 }
+
 hr {
     border: 0;
     height: 1px;
     background-color: #ccc;
     margin: 20px 0px;
 }
+
 label {
     font-size: 10px;
     font-weight: bold;
     text-shadow: 0px 1px 3px black, 0px 0px 4px black, 0px 3px 10px black;
     color: white;
 }
+
 .menu {
     position:absolute;
     left:0px;
 }
+
 .about {
     width: 340px;
     border-radius:4px;
     border: 1px solid #fff;
     -webkit-background-clip:padding-box;
 }
+
 .gui {
     color: #ccc;
     background: #36393a url(harmony/img/menu.png) left bottom repeat-x;
@@ -60,34 +65,45 @@ label {
     -webkit-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.8);
     position: fixed !important;
 }
+
 .button {
     padding: 2px;
     cursor: pointer;
 }
+
 .button:hover, .button:active {
     text-shadow: 0px 1px 3px black;
 }
+
+.button:hover, .button:active {
+    text-shadow: 0px 1px 3px black;
+}
+
 a, a:hover, a:visited {
     color: #abf;
     text-decoration: none;
 }
+
 .key {
     padding: 0px 8px;
     margin-left: 1px;
     background-color: #222;
     border-radius: 3px;
 }
+
 .well {
     border-radius: 4px;
     border: 1px solid black;
     -webkit-box-shadow: 0px 1px 0px rgba(255,255,255,0.2);
     margin-right: 8px;
 }
+
 .container{
     background: url("mockups/traces_hp_eng.png") center top no-repeat #f6f8f8;
     min-height: 1346px;
     margin-top: 30px;
 }
+
 #mice{
     position: fixed;
     height: 40px; width: 200px;
@@ -96,28 +112,33 @@ a, a:hover, a:visited {
     color: #fff;
     z-index: 99999;
 }
+
 #mice h2,
 #mice p{
     display: none;
 }
+
 #logo{
     background: url("mockups/logo.png") no-repeat;
     height: 30px; width: 88px;
     position: fixed;
     top: 43px; right: 10px;
 }
+
 #nav{
     background: url("mockups/nav.png") no-repeat;
     height: 17px; width: 594px;
     position: fixed;
     top: 58px; left: 17px;
 }
+
 #shift{
     background: url("mockups/shift.png") no-repeat;
     height: 18px; width: 61px;
     position: fixed;
     bottom: 20px; left: 20px;
 }
+
 #artisthouse {
     background: url("mockups/artist_house_logo.png") no-repeat;
     height: 58px; width: 52px;
