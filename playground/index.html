@@ -30,6 +30,8 @@
                     }
                     if (key == 16 && !draw) {
                         draw = true;
+                        cursor_brush = eval("new " + BRUSHES[0] + "(context)");
+                        cursor_brush.strokeStart(latest[0] - canvas.offsetLeft, latest[1] - canvas.offsetTop)
                         for (var i=0; i<all_captures.length; i++) {
                             db_brushes.push(eval("new " + BRUSHES[0] + "(context)"));
                             db_brushes[i].strokeStart( last_xy[i][0] - canvas.offsetLeft, last_xy[i][1] - canvas.offsetTop );
@@ -41,12 +43,15 @@
                     var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
                     if (key == 16 && draw) {
                         draw = false;
+                        context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                        cursor_brush.strokeEnd();
+                        cursor_brush.destroy();
                         for (var i=0; i<db_brushes.length; i++) {
                             db_brushes[i].strokeEnd();
-                            context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-                            for (var i=0; i<db_brushes.length; i++) {
-                                db_brushes[i].strokeStart( last_xy[i][0] - canvas.offsetLeft, last_xy[i][1] - canvas.offsetTop );
-                            }
+                            db_brushes[i].destroy();
+                            // for (var i=0; i<db_brushes.length; i++) {
+                            //     db_brushes[i].strokeStart( last_xy[i][0] - canvas.offsetLeft, last_xy[i][1] - canvas.offsetTop );
+                            // }
                         }
                     }
                 });
@@ -57,6 +62,7 @@
                 var draw = false;
                 var last_xy = [];
                 var db_brushes = [];
+                var cursor_brush = null;
 
                 // captured data
                 var all_captures = [];
@@ -127,6 +133,9 @@
                 $("body").mousemove(function (e) {
                     $("#latest").html("(" + e.pageX + "," + e.pageY + ")");
                     latest = [e.pageX, e.pageY];
+                    if (draw) {
+                        cursor_brush.stroke( e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop );
+                    }
                 });
             });
         </script>
