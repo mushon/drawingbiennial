@@ -217,7 +217,7 @@ function onWindowKeyDown( event )
 			shiftKeyIsDown = true;
 			foregroundColorSelector.container.style.left = mouseX - 125 + 'px';
 			foregroundColorSelector.container.style.top = mouseY - 125 + 'px';
-			foregroundColorSelector.container.style.visibility = 'visible';
+			// foregroundColorSelector.container.style.visibility = 'visible';
 			break;
 			
 		case 18: // Alt
