@@ -30,6 +30,7 @@
                     }
                     if (key == 16 && !draw) {
                         draw = true;
+                        $("body").addClass("drawing");
                         cursor_brush = eval("new " + BRUSHES[menu.selector.selectedIndex] + "(context)");
                         cursor_brush.strokeStart(latest[0] - canvas.offsetLeft, latest[1] - canvas.offsetTop)
                         for (var i=0; i<all_captures.length; i++) {
@@ -43,6 +44,7 @@
                     var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
                     if (key == 16 && draw) {
                         draw = false;
+                        $("body").removeClass("drawing");
                         context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
                         cursor_brush.strokeEnd();
                         cursor_brush.destroy();
