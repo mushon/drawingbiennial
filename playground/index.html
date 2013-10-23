@@ -6,6 +6,8 @@
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script type="text/javascript">
             var backgrounds = [
+                'mockups/traces_h_hp.png',
+                'mockups/traces_h_artists.png',
                 'mockups/traces_hp_eng.png',
                 'mockups/traces_hp_heb.png',
                 'mockups/traces_gallery_eng.png',
@@ -26,21 +28,31 @@
                     if (key == 39) {
                         $(".container").css("background", 'url("' + backgrounds[bgi++ % backgrounds.length] + '") no-repeat #f6f8f8');
                     }
-                    if (key == 16) {
-                        for (var i=0; i<db_brushes.length; i++) {
+                    if (key == 16 && !draw) {
+                        draw = true;
+                        cursor_brush = eval("new " + BRUSHES[0] + "(context)");
+                        cursor_brush.strokeStart(latest[0] - canvas.offsetLeft, latest[1] - canvas.offsetTop)
+                        for (var i=0; i<all_captures.length; i++) {
+                            db_brushes.push(eval("new " + BRUSHES[0] + "(context)"));
                             db_brushes[i].strokeStart( last_xy[i][0] - canvas.offsetLeft, last_xy[i][1] - canvas.offsetTop );
                         }
-                        draw = true;
                     }
                 });
 
                 $("body").keyup(function(e) {
                     var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
-                    if (key == 16) {
+                    if (key == 16 && draw) {
+                        draw = false;
+                        context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                        cursor_brush.strokeEnd();
+                        cursor_brush.destroy();
                         for (var i=0; i<db_brushes.length; i++) {
                             db_brushes[i].strokeEnd();
+                            db_brushes[i].destroy();
+                            // for (var i=0; i<db_brushes.length; i++) {
+                            //     db_brushes[i].strokeStart( last_xy[i][0] - canvas.offsetLeft, last_xy[i][1] - canvas.offsetTop );
+                            // }
                         }
-                        draw = false;
                     }
                 });
 
@@ -50,6 +62,7 @@
                 var draw = false;
                 var last_xy = [];
                 var db_brushes = [];
+                var cursor_brush = null;
 
                 // captured data
                 var all_captures = [];
@@ -76,7 +89,6 @@
                         // push an array clone
                         all_captures.push(capture.slice(0));
                         last_xy.push([]);
-                        db_brushes.push(eval("new " + BRUSHES[0] + "(context)"));
                         // since we use the same reference again
                         capture = [];
                         latest = [];
@@ -121,6 +133,9 @@
                 $("body").mousemove(function (e) {
                     $("#latest").html("(" + e.pageX + "," + e.pageY + ")");
                     latest = [e.pageX, e.pageY];
+                    if (draw) {
+                        cursor_brush.stroke( e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop );
+                    }
                 });
             });
         </script>
@@ -139,6 +154,7 @@
         </div>
         <div id="logo"></div>
         <div id="nav"></div>
+        <div id="artisthouse"></div>
         <div id="shift"></div>
         <script type="text/javascript" src="harmony/js/brushes/circles.js"></script>
         <script type="text/javascript" src="harmony/js/brushes/chrome.js"></script>

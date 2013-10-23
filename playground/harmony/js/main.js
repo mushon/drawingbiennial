@@ -6,7 +6,7 @@ var SCREEN_WIDTH = window.innerWidth,
     SCREEN_HEIGHT = window.innerHeight,
     BRUSH_SIZE = 1,
     BRUSH_PRESSURE = 1,
-    COLOR = [0, 0, 0],
+    COLOR = [187, 187, 187],
     BACKGROUND_COLOR = [250, 250, 250],
     STORAGE = window.localStorage,
     brush,
@@ -217,7 +217,7 @@ function onWindowKeyDown( event )
 			shiftKeyIsDown = true;
 			foregroundColorSelector.container.style.left = mouseX - 125 + 'px';
 			foregroundColorSelector.container.style.top = mouseY - 125 + 'px';
-			foregroundColorSelector.container.style.visibility = 'visible';
+			// foregroundColorSelector.container.style.visibility = 'visible';
 			break;
 			
 		case 18: // Alt
