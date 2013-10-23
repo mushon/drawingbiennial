@@ -82,7 +82,7 @@
                 var playId = -1;
 
                 // capture params
-                var FPS = 20;
+                var FPS = 40;
                 var CAPTURE_INTERVAL = 1000 / FPS;
 
                 $("#record").click(function () {
@@ -143,7 +143,7 @@
                     latest = [e.pageX, e.pageY];
                     if (draw) {
                         var old_color = COLOR;
-                        COLOR = [37, 46, 196];
+                        COLOR = [70, 70, 70]; // [37, 46, 196];
                         cursor_brush.stroke( e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop );
                         COLOR = old_color;
                     }
