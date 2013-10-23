@@ -142,7 +142,10 @@
                     $("#latest").html("(" + e.pageX + "," + e.pageY + ")");
                     latest = [e.pageX, e.pageY];
                     if (draw) {
+                        var old_color = COLOR;
+                        COLOR = [37, 46, 196];
                         cursor_brush.stroke( e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop );
+                        COLOR = old_color;
                     }
                 });
             });
