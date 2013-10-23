@@ -8,15 +8,21 @@
             var backgrounds = [
                 'mockups/traces_h_hp.png',
                 'mockups/traces_h_artists.png',
-                'mockups/traces_hp_eng.png',
-                'mockups/traces_hp_heb.png',
-                'mockups/traces_gallery_eng.png',
-                'mockups/traces_gallery_heb.png',
-                'mockups/traces_a1_eng.png',
-                'mockups/traces_a2_eng.png',
-                'mockups/traces_a3_eng.png',
-                'mockups/traces_a4_eng.png',
-                'mockups/traces_a5_eng.png'
+                'mockups/traces_h_artist1.png',
+                'mockups/traces_h_artist2.png',
+                'mockups/traces_h_artist3.png',
+                'mockups/traces_h_artist4.png',
+                'mockups/traces_h_artist5.png',
+                'mockups/traces_text.png'
+                //'mockups/traces_hp_eng.png',
+                //'mockups/traces_hp_heb.png',
+                // 'mockups/traces_gallery_eng.png',
+                // 'mockups/traces_gallery_heb.png',
+                // 'mockups/traces_a1_eng.png',
+                // 'mockups/traces_a2_eng.png',
+                // 'mockups/traces_a3_eng.png',
+                // 'mockups/traces_a4_eng.png',
+                // 'mockups/traces_a5_eng.png'
             ];
             var bgi = 0;
 
@@ -26,10 +32,11 @@
                 $("body").keydown(function(e) {
                     var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
                     if (key == 39) {
-                        $(".container").css("background", 'url("' + backgrounds[bgi++ % backgrounds.length] + '") no-repeat #f6f8f8');
+                        $(".container").css("background", 'url("' + backgrounds[bgi++ % backgrounds.length] + '") no-repeat');
                     }
                     if (key == 16 && !draw) {
                         draw = true;
+                        $("body").addClass("drawing");
                         cursor_brush = eval("new " + BRUSHES[menu.selector.selectedIndex] + "(context)");
                         cursor_brush.strokeStart(latest[0] - canvas.offsetLeft, latest[1] - canvas.offsetTop)
                         for (var i=0; i<all_captures.length; i++) {
@@ -43,6 +50,7 @@
                     var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
                     if (key == 16 && draw) {
                         draw = false;
+                        $("body").removeClass("drawing");
                         context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
                         cursor_brush.strokeEnd();
                         cursor_brush.destroy();
@@ -134,7 +142,10 @@
                     $("#latest").html("(" + e.pageX + "," + e.pageY + ")");
                     latest = [e.pageX, e.pageY];
                     if (draw) {
+                        var old_color = COLOR;
+                        COLOR = [37, 46, 196];
                         cursor_brush.stroke( e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop );
+                        COLOR = old_color;
                     }
                 });
             });
