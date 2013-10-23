@@ -28,6 +28,13 @@
 
             $(document).ready(function() {
 
+                $.get("http://traces5.herokuapp.com/traces", function(res) {
+                    for (var i=0; i<res.length; i++) {
+                        all_captures.push(res[i].trace);
+                        last_xy.push([]);
+                    }
+                }, 'json');
+
                 // just handle background changes
                 $("body").keydown(function(e) {
                     var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
@@ -95,6 +102,10 @@
                     } else {
                         clearInterval(recordId);
                         // push an array clone
+                        $.post("http://traces5.herokuapp.com/traces", {
+                            page: "homepage",
+                            trace: JSON.stringify(capture)
+                        });
                         all_captures.push(capture.slice(0));
                         last_xy.push([]);
                         // since we use the same reference again
