@@ -30,10 +30,10 @@
                     }
                     if (key == 16 && !draw) {
                         draw = true;
-                        cursor_brush = eval("new " + BRUSHES[0] + "(context)");
+                        cursor_brush = eval("new " + BRUSHES[menu.selector.selectedIndex] + "(context)");
                         cursor_brush.strokeStart(latest[0] - canvas.offsetLeft, latest[1] - canvas.offsetTop)
                         for (var i=0; i<all_captures.length; i++) {
-                            db_brushes.push(eval("new " + BRUSHES[0] + "(context)"));
+                            db_brushes.push(eval("new " + BRUSHES[menu.selector.selectedIndex] + "(context)"));
                             db_brushes[i].strokeStart( last_xy[i][0] - canvas.offsetLeft, last_xy[i][1] - canvas.offsetTop );
                         }
                     }
