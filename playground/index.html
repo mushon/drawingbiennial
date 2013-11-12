@@ -44,10 +44,8 @@
                     if (key == 16 && !draw) {
                         draw = true;
                         $("body").addClass("drawing");
-                        cursor_brush = eval("new " + BRUSHES[menu.selector.selectedIndex] + "(context)");
-                        cursor_brush.strokeStart(latest[0] - canvas.offsetLeft, latest[1] - canvas.offsetTop)
                         for (var i=0; i<all_captures.length; i++) {
-                            db_brushes.push(eval("new " + BRUSHES[menu.selector.selectedIndex] + "(context)"));
+                            db_brushes.push(eval("new simplecurve(context)"));
                             db_brushes[i].strokeStart( last_xy[i][0] - canvas.offsetLeft, last_xy[i][1] - canvas.offsetTop );
                         }
                     }
@@ -59,8 +57,8 @@
                         draw = false;
                         $("body").removeClass("drawing");
                         context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-                        cursor_brush.strokeEnd();
-                        cursor_brush.destroy();
+                        // cursor_brush.strokeEnd();
+                        // cursor_brush.destroy();
                         for (var i=0; i<db_brushes.length; i++) {
                             db_brushes[i].strokeEnd();
                             db_brushes[i].destroy();
@@ -152,9 +150,21 @@
                 $("body").mousemove(function (e) {
                     $("#latest").html("(" + e.pageX + "," + e.pageY + ")");
                     latest = [e.pageX, e.pageY];
+
+                    if (!cursor_brush) {
+                        cursor_brush = eval("new simplecurve(context)");
+                        cursor_brush.strokeStart(latest[0] - canvas.offsetLeft, latest[1] - canvas.offsetTop);
+                    }
+
                     if (draw) {
                         var old_color = COLOR;
                         COLOR = [93, 211, 190]; // [37, 46, 196];
+                        cursor_brush.stroke( e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop );
+                        COLOR = old_color;
+                    }
+                    else {
+                        var old_color = COLOR;
+                        COLOR = [171, 171, 171];
                         cursor_brush.stroke( e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop );
                         COLOR = old_color;
                     }
@@ -186,6 +196,7 @@
         <script type="text/javascript" src="harmony/js/brushes/ribbon.js"></script>
         <script type="text/javascript" src="harmony/js/brushes/shaded.js"></script>
         <script type="text/javascript" src="harmony/js/brushes/simple.js"></script>
+        <script type="text/javascript" src="harmony/js/brushes/simplecurve.js"></script>
         <script type="text/javascript" src="harmony/js/brushes/sketchy.js"></script>
         <script type="text/javascript" src="harmony/js/brushes/squares.js"></script>
         <script type="text/javascript" src="harmony/js/brushes/web.js"></script>
